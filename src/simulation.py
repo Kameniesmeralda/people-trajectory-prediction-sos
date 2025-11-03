@@ -2,70 +2,77 @@ from boid import Boid
 import numpy as np
 import matplotlib.pyplot as plt
 
-# exemple de fonction fitness
+#-----------------------------------------------
+# 1- Paramètres de simulation
 
-def objective_fitness(position):
-    #Exemple: il faut atteindre là position [50,50]
+#Dimension de l'espace
+width,height=100,100
 
-    return np.linalg.norm(position-np.array([50,50]))
+#Nombre d'agents dans le système
+N_boids= 30
 
-# Initialisation de la population
+#Paramètres comportementaux du modèle (règles + poids)
+params={
+    #poids de chaque force
+    'w_separation':1.5,  # poids de la séparation
+    'w_alignement':1.0,  #poids de l'alignement
+    'w_cohesion':0.8,    # poids de la cohesion
 
-N= 50
+    #rayons d'interaction
+    'r_separation':15.0,   # rayon d'évitement
+    'r_alignement':40.0,   # rayon d'alignement
+    'r_cohesion':50.0,     # rayon de cohésion
 
-""" On initialise une liste de 20 personnes réparties aléatoirement 
-dans un espace 2D de 100*100 avec chacune une position et une vélocité aléatoires"""
+    #Vitesse max
+    'max_speed':3.0
+}
 
-boids= [Boid(np.random.rand(2)*100, np.random.randn(2)) for _ in range(N)]
+#-----------------------------------------------
+# 2- Initialisation des boids
 
-# Paramètres de notre algorithme PSO
+#on crée une liste d'objets Boid avec des positions et des vitesses aléatoires
+boids=[
+    Boid(
+        position=np.random.rand(2) * [width,height],   #positions aléatoires dans l'espace
+        velocity=(np.random.rand(2)-0.5)*10            #vitesses initiales aléatoires
+    )
+    for _ in range(N_boids)
+]
 
-params= {'w_inertia':0.7, 'c1':2.0, 'c2':2.0, 'max_speed':3.0}
+#-----------------------------------------------
+#3-Configuration de l'affichage sur Matplotlib
 
-#Initialisation du meilleur global
-global_best_pos= boids[0].pos.copy()
-global_best_value=objective_fitness(global_best_pos)
+plt.ion() # active le mode interactif (animation en direct)
+fig,ax= plt.subplots(figsize=(7,7))
+ax.set_xlim(0,width)
+ax.set_ylim(0,height)
+ax.set_title("Simulation of the Boids Model(Reynolds)")
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
 
-# affichage de la simulation
-plt.ion() # mode interactif avec animation
-fig, ax= plt.subplots(figsize=(6,6))
+#On crée un nuage de points(scatter) qu'on mettra a jour à chaque itération
+positions=np.array([b.pos for b in boids])
+scat= ax.scatter(positions[:,0],positions[:,1], color="royalblue", s=30)
 
-#Boucle de simulation
-for t in range(100):
-    #évaluation et mise à jour du meilleur global
+#-----------------------------------------------
+#4-Boucle principale de simulation
+
+for step in range(300): #nombre d'itérations
+    #Mettre à jour chaque boid
     for b in boids:
-        b.evaluate(objective_fitness)
-        # Mise à jour du meilleur global
-        if objective_fitness(b.best_pos)<global_best_value:
-            global_best_pos=b.best_pos.copy()
-            global_best_value=objective_fitness(b.best_pos)
+        b.update(boids,params)  #appliquer les 3 règles comportementales
+        b.apply_boundaries(width, height)
+    #Mise à jour graphique
+    positions=np.array([b.pos for b in boids]) #extraire les nouvelles positions
+    scat.set_offsets(positions)                # mise à jour de la position du scatter
+    ax.set_title(f"Simulation Boids - Itération {step+1}") # Titre dynamique
 
-    #mise à jour des boids
-    for b in boids:
-        b.update(global_best_pos, params)
+    plt.pause(0.03)  #pause courte pour l'animation
 
-    # Visualisation
-    ax.clear()
-    ax.set_xlim(0,100)
-    ax.set_ylim(0,100)
-    ax.set_title(f"Iteration {t+1} - Best value: {global_best_value:4e}")
+plt.ioff() #désactive le mode interactif
+plt.show() #affiche la figure finale
 
-    # Position des agents
-    positions= np.array([b.pos for b in boids])
-    ax.scatter(positions[:,0],positions[:,1],color='blue', label='Boids')
+#-----------------------------------------------
+#5- Fin de la simulation
 
-    #Meilleure position globale
-    ax.scatter(global_best_pos[0], global_best_pos[1], color='red', marker='*', s=200, label='Best Global')
-
-    #Point cible
-    ax.scatter(50,50, color='green', marker='X',s=100, label="Target(50,50)")
-
-    ax.legend()
-    plt.pause(0.005)
-
-plt.ioff()
-plt.show()
-
-# Résultats finaux
-print("Best global position found:", global_best_pos)
-print("Objective value:",global_best_value)
+print("Simulation terminée")
