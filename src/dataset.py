@@ -34,7 +34,8 @@ SEQ_LEN = 10    # (Tu pourras ajuster plus tard !)
 # Fichier généré par simulation.py
 # Format : (n_frames, n_boids, 2)
 # Exemple : (300, 30, 2)
-trajectories = np.load("../data/boids_trajectories.npy")
+trajectories = np.load("../data/boids_trajectories_best_pso.npy")
+
 
 # Récupérer les dimensions
 n_frames, n_boids, coord_dim = trajectories.shape
