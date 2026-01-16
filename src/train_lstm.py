@@ -41,18 +41,29 @@ Y_torch = torch.tensor(Y, dtype=torch.float32)
 # =====================================================================
 
 class TrajectoryDataset(Dataset):
+    """
+       Dataset personnalisé pour gérer nos séquences de trajectoires.
+
+       Chaque élément du dataset est :
+           - input_seq : séquence de positions (SEQ_LEN, 2)
+           - target    : position suivante (2,)
+       """
+
     def __init__(self, X, Y):
         self.X = X
         self.Y = Y
 
     def __len__(self):
+        #nombre total d'échantillons
         return len(self.X)
 
     def __getitem__(self, idx):
+        #retourne le i-ème couple (séquence, cible)
         return self.X[idx], self.Y[idx]
 
-
+#création du dataset global
 dataset = TrajectoryDataset(X_torch, Y_torch)
+
 dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
 
 
@@ -61,6 +72,10 @@ dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
 # =====================================================================
 
 class LSTMModel(nn.Module):
+    """
+       Modèle LSTM simple pour prédire la prochaine position (x,y)
+       à partir d'une séquence de positions (x,y) passées.
+    """
     def __init__(self, input_dim=2, hidden_dim=64, num_layers=2, output_dim=2):
         super().__init__()
 
@@ -80,6 +95,7 @@ class LSTMModel(nn.Module):
 
 
 model = LSTMModel()
+print("\nArchitecture du modèle :")
 print(model)
 
 # Optimiseur Adam + MSE
