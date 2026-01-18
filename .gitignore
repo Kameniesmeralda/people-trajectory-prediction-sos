@@ -205,3 +205,20 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Data generated
+data/*.npy
+
+# Models checkpoints
+models/*.pth
+models/*.npy
+
+# Results / runs
+results/
+runs/
