@@ -1,0 +1,21 @@
+{
+  "scene": "univ",
+  "data_root": "data_real/raw",
+  "obs_len": 10,
+  "pred_horizon": 30,
+  "batch_size": 256,
+  "epochs": 150,
+  "lr": 0.0006,
+  "hidden_dim": 64,
+  "num_layers": 2,
+  "dropout": 0.12,
+  "k": [
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "run_name": "univ_h30_capacity_check_hd64_l2_day7",
+  "eval_test_each_epoch": false
+}

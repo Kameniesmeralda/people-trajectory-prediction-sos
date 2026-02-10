@@ -1,0 +1,21 @@
+{
+  "scene": "eth",
+  "data_root": "C:\\Users\\kamen\\OneDrive\\Bureau\\Mes_cours_du_DD\\SOS\\Projet-SOS\\people-trajectory-prediction-sos\\data_real\\loso_h12",
+  "obs_len": 10,
+  "pred_horizon": 12,
+  "batch_size": 256,
+  "epochs": 150,
+  "lr": 0.0005,
+  "hidden_dim": 64,
+  "num_layers": 1,
+  "dropout": 0.15,
+  "k": [
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "run_name": "LOSO_H12_test_eth",
+  "eval_test_each_epoch": true
+}

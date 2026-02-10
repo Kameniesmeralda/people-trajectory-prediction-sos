@@ -1,0 +1,21 @@
+{
+  "scene": "univ",
+  "data_root": "data_real/raw",
+  "obs_len": 10,
+  "pred_horizon": 12,
+  "batch_size": 256,
+  "epochs": 120,
+  "lr": 0.0005,
+  "hidden_dim": 32,
+  "num_layers": 1,
+  "dropout": 0.15,
+  "k": [
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "run_name": "univ_h12_lstm_offset_test_each_epoch_day7",
+  "eval_test_each_epoch": true
+}

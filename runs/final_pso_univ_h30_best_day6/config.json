@@ -1,0 +1,21 @@
+{
+  "scene": "univ",
+  "data_root": "data_real/raw",
+  "obs_len": 10,
+  "pred_horizon": 30,
+  "batch_size": 256,
+  "epochs": 100,
+  "lr": 0.0008401313,
+  "hidden_dim": 16,
+  "num_layers": 1,
+  "dropout": 0.0012646578,
+  "k": [
+    0.25,
+    0.5,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "run_name": "final_pso_univ_h30_best_day6",
+  "eval_test_each_epoch": false
+}

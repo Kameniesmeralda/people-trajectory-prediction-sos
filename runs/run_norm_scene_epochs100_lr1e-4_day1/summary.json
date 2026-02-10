@@ -1,0 +1,6 @@
+{
+  "best_val_ade": 0.6045920252799988,
+  "run_dir": "runs\\run_norm_scene_epochs100_lr1e-4_day1",
+  "best_model": "runs\\run_norm_scene_epochs100_lr1e-4_day1\\best_model.pth",
+  "last_model": "runs\\run_norm_scene_epochs100_lr1e-4_day1\\last_model.pth"
+}
